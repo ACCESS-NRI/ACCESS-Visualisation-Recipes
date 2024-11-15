@@ -1,5 +1,7 @@
 # ACCESS Visualisation Recipes
 
+[![DOI](https://zenodo.org/badge/875944360.svg)](https://doi.org/10.5281/zenodo.14167706)
+
 This repository hosts visualisation recipes developed for the ACCESS (Australian Community Climate and Earth-System Simulator) project. These recipes enable users to easily visualise climate model data and perform analysis using Python-based tools. The recipes are part of the Model Evaluation and Diagnostics (MED) team's efforts at ACCESS-NRI and were initially developed by Owen Kaluza at ACCESS-NRI.
 
 The recipes make use of the `accessvis` package to create interactive visualisations of climate data, including outputs from ACCESS-ESM models and other CMIP6 datasets.
