@@ -20,11 +20,6 @@
 
     "title": "ACCESS-Visualisation-Recipes",
 
-    "keywords": ["Climate", "Science", "Model Evaluation", "Visualisation", "ACCESS-NRI", "NCI"],
+    "keywords": ["Climate", "Science", "Model Evaluation", "Visualisation", "ACCESS-NRI", "NCI"]
 
-    "communities": [
-        {"identifier": "access-nri"}
-    ],
-
-    "grants": [{"id":""}]
 }
