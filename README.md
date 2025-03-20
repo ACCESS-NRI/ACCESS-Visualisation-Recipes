@@ -47,7 +47,7 @@ system at the National Computational Infrastructure (NCI), follow the steps belo
           ```
         - **Modules**: Add the environment:
           ```
-          conda/access-vis-0.2
+          conda/access-vis-0.3
           ```
 
 5. **Launch your JupyterLab session**:
