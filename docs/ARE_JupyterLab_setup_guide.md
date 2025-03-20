@@ -55,7 +55,7 @@ scratch/xp65+gdata/xp65...
 
 8. **Modules** To load the ESMValTool-workflow environment, please copy and paste the following. This is equivalent to using `module load` on the command line.
 ```
-conda/access-vis-0.1
+conda/access-vis-0.2
 ```
 
 <p align="center"><img src="assets_ARE/modules.png" alt="drawing" width="60%"/></p>
