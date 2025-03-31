@@ -7,7 +7,7 @@ Simulator) project. These recipes enable users to easily visualise climate model
 Python-based tools. The recipes are part of the Model Evaluation and Diagnostics (MED) team's efforts at ACCESS-NRI and
 were initially developed by Owen Kaluza at ACCESS-NRI.
 
-The recipes make use of the `accessvis` package to create interactive visualisations of climate data, including outputs
+The recipes make use of the [accessvis](https://github.com/ACCESS-NRI/ACCESS-Vis) package to create interactive visualisations of climate data, including outputs
 from ACCESS-ESM models and other CMIP6 datasets.
 
 ![Heights of Land and Depth of Oceans](assets/gallery/earth_rotating.gif "Heights of Land and Depth of Oceans")
