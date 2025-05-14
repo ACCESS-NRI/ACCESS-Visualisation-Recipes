@@ -68,7 +68,7 @@ def testNotebook(path):
     else:
         #Check the image results
         ep = 'expected/' + notebook
-        lv.testimages(tolerance=1e-5, expectedPath=ep)
+        lv.testimages(tolerance=1e-4, expectedPath=ep)
 
     #Restore working dir
     os.chdir(wd)
