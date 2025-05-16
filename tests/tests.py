@@ -17,9 +17,8 @@ print(lavavu.__file__, lavavu.__version__)
 wd = os.getcwd()
 lv = lavavu.Viewer()
 
-osmesa = os.getenv('LV_CONTEXT', '') == 'osmesa'
 expected_dir = 'expected'
-if osmesa:
+if len(sys.argv) > 1 and sys.argv[1] == 'thumbs':
     #Compare thumbnails to reduce render time
     print('Running image comparisons in thumbnail mode')
     expected_dir = 'expected_thumbs'
