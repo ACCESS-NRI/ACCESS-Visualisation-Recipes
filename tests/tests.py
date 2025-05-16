@@ -18,8 +18,10 @@ wd = os.getcwd()
 lv = lavavu.Viewer()
 
 expected_dir = 'expected'
+thumbs = False
 if len(sys.argv) > 1 and sys.argv[1] == 'thumbs':
     #Compare thumbnails to reduce render time
+    thumbs = True
     print('Running image comparisons in thumbnail mode')
     expected_dir = 'expected_thumbs'
 
@@ -47,7 +49,7 @@ def testNotebook(path):
             exporter = PythonExporter()
             source, meta = exporter.from_notebook_node(nb)
             #Reduced output resolution for software renderer
-            if osmesa:
+            if thumbs:
                 thumb_res = 120
                 source = re.sub(r"resolution=\([\dA-Za-z_]*,\s*[\dA-Za-z_]*\)", f"resolution=({thumb_res},{thumb_res})", source)
                 source = re.sub(r"lv.display\(\)", f"lv.display(resolution=({thumb_res},{thumb_res}))", source)
