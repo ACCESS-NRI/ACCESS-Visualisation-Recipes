@@ -8,12 +8,21 @@ import platform
 import glob
 import pathlib
 import shutil
+import re
+
 
 print(accessvis.__file__, accessvis.__version__)
 print(lavavu.__file__, lavavu.__version__)
 
 wd = os.getcwd()
 lv = lavavu.Viewer()
+
+osmesa = os.getenv('LV_CONTEXT', '') == 'osmesa'
+expected_dir = 'expected'
+if osmesa:
+    #Compare thumbnails to reduce render time
+    print('Running image comparisons in thumbnail mode')
+    expected_dir = 'expected_thumbs'
 
 def testNotebook(path):
     #Get filename without path and extension
@@ -23,12 +32,12 @@ def testNotebook(path):
     notebook = path.stem
     print(nbfolder, nbname, notebook)
     print("Testing Notebook: " + notebook)
+    exp_path = os.path.join(expected_dir, notebook)
     #Check if the test dir exists, if not create
-    dirfound = os.path.exists('expected/' + notebook)
-    print(os.path.exists('expected/' + notebook), 'expected/' + notebook)
+    dirfound = os.path.exists(exp_path)
     if not dirfound: 
-        print("Creating dirs: " + 'expected/' + notebook)
-        os.makedirs(os.path.join('expected/', notebook))
+        print("Creating dirs: ", exp_path)
+        os.makedirs(exp_path)
 
     #Notebooks must be converted to py before running or images will be generated inline and not saved to disk
     try:
@@ -38,6 +47,13 @@ def testNotebook(path):
             nb = nbformat.reads(fh.read(), nbformat.NO_CONVERT)
             exporter = PythonExporter()
             source, meta = exporter.from_notebook_node(nb)
+            #Reduced output resolution for software renderer
+            if osmesa:
+                thumb_res = 120
+                source = re.sub(r"resolution=\([\dA-Za-z_]*,\s*[\dA-Za-z_]*\)", f"resolution=({thumb_res},{thumb_res})", source)
+                source = re.sub(r"lv.display\(\)", f"lv.display(resolution=({thumb_res},{thumb_res}))", source)
+                source = re.sub(r"lv.display\(\([\dA-Za-z_]*,\s*[\dA-Za-z_]*\)", f"lv.display(({thumb_res},{thumb_res})", source)
+
             fn = notebook + '.py'
             print(fn)
             with open(fn, 'w+') as f:
@@ -56,7 +72,7 @@ def testNotebook(path):
     #    os.remove(im)
 
     #Execute converted script
-    subprocess.check_call(['python', 'runner.py', notebook+".py"])
+    subprocess.check_call(['python', 'runner.py', notebook+".py"], env=os.environ.copy())
 
     #Use output of the initial run as expected data
     if not dirfound:
@@ -64,11 +80,10 @@ def testNotebook(path):
         images = glob.glob("*.png") #+ glob.glob("*.jpg")
         print("EXPECTED IMAGES", images)
         for f in images:
-            shutil.move(f, os.path.join('expected', notebook, f))
+            shutil.move(f, os.path.join(exp_path, f))
     else:
         #Check the image results
-        ep = 'expected/' + notebook
-        lv.testimages(tolerance=1e-4, expectedPath=ep)
+        lv.testimages(tolerance=1e-4, expectedPath=exp_path)
 
     #Restore working dir
     os.chdir(wd)
